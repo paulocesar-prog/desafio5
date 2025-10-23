@@ -1,9 +1,21 @@
 {
-  "env": { "node": true, "jest": true, "es2020": true },
+  "env": {
+    "node": true,
+    "jest": true,
+    "es2020": true
+  },
   "extends": "eslint:recommended",
-  "parserOptions": { "ecmaVersion": 2020 },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "rules": {
-    "semi": ["error", "always"],
-    "quotes": ["error", "single"]
+    "semi": [
+      "error",
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ]
   }
 }
