@@ -40,10 +40,10 @@ jobs:
         id: test
         run: |
           npm test -- --coverage --coverageReporters=text
-          coverage=$(npm test -- --coverage --coverageReporters=text | grep -E 'Lines\s+\|' | awk '{print $3}' | tr -d '%')
+          coverage=$(npm test -- --coverage --coverageReporters=text | grep -E 'All files\s+\|' | awk '{print $5}' | tr -d '%')
           echo "coverage=$coverage" >> "$GITHUB_OUTPUT"
           outputs:
-          coverage: ${{ steps.test.outputs.coverage }}
+            coverage: ${{ steps.test.outputs.coverage }}
 
   docker:
     permissions:
