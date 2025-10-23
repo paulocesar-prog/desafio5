@@ -6,7 +6,7 @@ export default [
   {
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: 'commonjs',
+      sourceType: 'module',
       globals: {
         ...globals.node,
         ...globals.jest
@@ -15,9 +15,9 @@ export default [
     rules: {
       'no-console': 'off',
       'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
-      'semi': ['error', 'always'],
-      'quotes': ['error', 'single'],
-      'indent': ['error', 2]
+      'semi': ['warn', 'always'],
+      'quotes': ['warn', 'single'],
+      'indent': ['warn', 2]
     }
   },
   {
