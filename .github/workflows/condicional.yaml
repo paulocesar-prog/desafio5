@@ -15,7 +15,7 @@ jobs:
           node-version: '20'
 
       - name: Install deps
-        run: npm ci
+        run: npm install
 
       - name: Lint NPM
         id: lint
@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         id: deps
-        run: npm ci
+        run: npm install
 
       - name: Run unit tests
         id: test
