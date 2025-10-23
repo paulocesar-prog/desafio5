@@ -2,6 +2,13 @@ name: Pipeline Completo
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: Ambiente de destino
+        required: true
+        default: staging
+        type: choice
+        options: [staging, production]
 
 jobs:
   lint:
@@ -13,12 +20,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
 
       - name: Install deps
-        run: npm install
+        working-directory: app
+        run: npm ci
 
       - name: Lint NPM
         id: lint
+        working-directory: app
         run: npm run lint
 
   unit:
@@ -31,16 +42,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
 
       - name: Install dependencies
         id: deps
-        run: npm install
+        working-directory: app
+        run: npm ci
 
       - name: Run unit tests
         id: test
+        working-directory: app
         run: |
-          npm test -- --coverage --coverageReporters=json
-          echo "coverage=$(jq .total.lines.pct coverage/coverage-summary.json)" >> "$GITHUB_OUTPUT"
+          npm test
+          echo "coverage=$(jq .total.lines.pct report.json)" >> "$GITHUB_OUTPUT"
     outputs:
       coverage: ${{ steps.test.outputs.coverage }}
 
@@ -69,11 +84,11 @@ jobs:
         id: build_push
         run: |
           repo_lc=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
-          image="ghcr.io/${repo_lc}/password-meter:${GITHUB_SHA}"
+          image="ghcr.io/${repo_lc}/api:${GITHUB_SHA}"
           docker build \
             --build-arg GH_PACKAGES_TOKEN \
             -t "$image" \
-            .
+            app
           docker push "$image"
           echo "image=$image" >> "$GITHUB_OUTPUT"
     outputs:
@@ -81,13 +96,8 @@ jobs:
 
   deploy:
     needs: docker
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Print image
-        run: echo "Deploying ${{ needs.docker.outputs.image }}"
-      
-      - name: Deploy to production
-        run: |
-          echo "🚀 Deploying password strength meter to production"
-          echo "📦 Image: ${{ needs.docker.outputs.image }}"
-          echo "✅ Deployment completed successfully!"
+        run: echo "Deploying ${{ needs.docker.outputs.image }} to ${{ inputs.environment }}"
