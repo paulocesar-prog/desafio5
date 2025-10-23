@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Avalia senhas como fracas, médias ou fortes",
   "main": "app/index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "node app/index.js 'MyP@ssw0rd!'",
     "lint": "eslint .",
@@ -14,18 +14,10 @@
   },
   "license": "MIT",
   "jest": {
-    "testEnvironment": "node",
-    "extensionsToTreatAsEsm": [
-      ".js"
-    ],
-    "moduleNameMapping": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    }
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "eslint": "^9.1.0",
-    "@eslint/js": "^9.1.0",
-    "globals": "^15.0.0",
     "jest": "^30.0"
   }
 }

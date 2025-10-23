@@ -15,9 +15,9 @@ function strength(password) {
   return 'fraca';
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (require.main === module) {
   const pwd = process.argv[2] || '';
   console.log(`Força: ${strength(pwd)}`);
 }
 
-export { strength };
+module.exports = { strength };

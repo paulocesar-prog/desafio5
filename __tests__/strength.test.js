@@ -1,4 +1,4 @@
-import { strength } from '../app/index.js';
+const { strength } = require('../app/index.js');
 
 describe('strength()', () => {
   it('classifica senha forte', () => {
