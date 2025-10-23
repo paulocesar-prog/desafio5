@@ -39,11 +39,13 @@ jobs:
       - name: Run unit tests
         id: test
         run: |
-          npm test -- --coverage --coverageReporters=text
-          coverage=$(npm test -- --coverage --coverageReporters=text | grep -E 'All files\s+\|' | awk '{print $5}' | tr -d '%')
+          test_output=$(npm test -- --coverage --coverageReporters=text)
+          echo "$test_output"
+          coverage=$(echo "$test_output" | grep -E 'All files\s+\|' | awk '{print $5}' | tr -d '%')
           echo "coverage=$coverage" >> "$GITHUB_OUTPUT"
-          outputs:
-            coverage: ${{ steps.test.outputs.coverage }}
+          echo "Extracted coverage: $coverage"
+    outputs:
+      coverage: ${{ steps.test.outputs.coverage }}
 
   docker:
     permissions:
@@ -55,6 +57,9 @@ jobs:
     env:
       GH_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Debug coverage
+        run: echo "Coverage value: ${{ needs.unit.outputs.coverage }}"
+      
       - name: Checkout code
         uses: actions/checkout@v4
 
