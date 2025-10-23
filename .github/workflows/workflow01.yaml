@@ -39,10 +39,11 @@ jobs:
       - name: Run unit tests
         id: test
         run: |
-          npm test -- --coverage --coverageReporters=json
-          echo "coverage=$(jq .total.lines.pct coverage/coverage-summary.json)" >> "$GITHUB_OUTPUT"
-    outputs:
-      coverage: ${{ steps.test.outputs.coverage }}
+          npm test -- --coverage --coverageReporters=text
+          coverage=$(npm test -- --coverage --coverageReporters=text | grep -E 'Lines\s+\|' | awk '{print $3}' | tr -d '%')
+          echo "coverage=$coverage" >> "$GITHUB_OUTPUT"
+          outputs:
+          coverage: ${{ steps.test.outputs.coverage }}
 
   docker:
     permissions:
