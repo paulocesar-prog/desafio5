@@ -7,4 +7,4 @@ COPY . .
 FROM gcr.io/distroless/nodejs20-debian12
 WORKDIR /app
 COPY --from=build /app /app
-CMD ["index.js", "abc"]
+CMD ["index.js", "MyP@ssw0rd!"]

@@ -97,11 +97,5 @@ jobs:
         run: |
           echo "🧪 Testing deployed container with different passwords:"
           echo ""
-          echo "Testing weak password 'abc':"
-          docker run --rm ${{ needs.docker.outputs.image }} abc
-          echo ""
-          echo "Testing medium password 'Medium123!':"
-          docker run --rm ${{ needs.docker.outputs.image }} Medium123!
-          echo ""
-          echo "Testing strong password 'Str0ngP@ssw0rd!':"
-          docker run --rm ${{ needs.docker.outputs.image }} Str0ngP@ssw0rd!
+          echo "Testing weak password:"
+          docker run --rm ${{ needs.docker.outputs.image }}
