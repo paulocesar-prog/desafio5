@@ -50,7 +50,7 @@ jobs:
       contents: read
       packages: write
     needs: unit
-    if: ${{ needs.unit.outputs.coverage >= 80 }}
+    if: ${{ needs.unit.outputs.coverage >= 90 }}
     runs-on: ubuntu-latest
     env:
       GH_PACKAGES_TOKEN: ${{ secrets.GITHUB_TOKEN }}
